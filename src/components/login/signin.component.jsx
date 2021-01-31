@@ -10,6 +10,7 @@ import {
     Text,
     Button
 } from "@chakra-ui/react";
+import {signInwithGoogle} from '../../firebase/firebase.utils';
 
 
 class SignUp extends Component {
@@ -56,7 +57,8 @@ class SignUp extends Component {
                             onChange={this.handleChange} 
                             placeholder="Enter your password" />
                     </FormControl>
-                    <Button mt={5} type="submit" colorScheme="blue">Login</Button>
+                    <Button mt={5}  mr={5} type="submit" colorScheme="blue">Sign In</Button>
+                    <Button mt={5} onClick ={signInwithGoogle} colorScheme="red">Sign In with Google</Button>
                 </form>
             </Box>
         )

@@ -13,10 +13,11 @@ import {
     Tooltip } from '@chakra-ui/react';
 import React from 'react';
 import {Link as ReachLink} from 'react-router-dom';
-import { FaShopify, FaSignInAlt } from "react-icons/fa";
+import { FaShopify, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { AiTwotoneShop } from "react-icons/ai";
+import {auth} from '../../firebase/firebase.utils';
 
-export const Header = () => {
+export const Header = ({currentUser}) => {
     const {colorMode, toggleColorMode} = useColorMode();
     // const bg = useColorModeValue("red.500", "red.200");
     // const color = useColorModeValue("white", "gray.800");
@@ -47,11 +48,20 @@ export const Header = () => {
                     </Link>
                 </Box>
                 <Box>
-                    <Link as={ReachLink} to='/login'_hover={{textDecoration: 'none'}}>
-                        <Tooltip label="Login" fontSize="md" mt={1} shouldWrapChildren placement="bottom" >
-                            <Icon as={FaSignInAlt} boxSize={9} />
-                        </Tooltip>
-                    </Link>
+                    {
+                        currentUser ? (
+                            <Tooltip label="Sign Out" fontSize="md" mt={1} shouldWrapChildren placement="bottom" >
+                                <Icon as={FaSignOutAlt} boxSize={9} onClick={() => auth.signOut()} />
+                            </Tooltip>
+                        ) : (
+                            <Link as={ReachLink} to='/login'_hover={{textDecoration: 'none'}}>
+                            <Tooltip label="Sign In" fontSize="md" mt={1} shouldWrapChildren placement="bottom" >
+                                <Icon as={FaSignInAlt} boxSize={9} />
+                            </Tooltip>
+                            </Link>
+                        )
+                    }
+                    
                 </Box>
             </Stack>
         </Flex>
