@@ -5,7 +5,7 @@ import ShopPage from './pages/shopes.pages';
 import LoginPage from './pages/login.pages';
 import {BrowserRouter, Route, Switch as RouteSwich} from 'react-router-dom';
 import Header from './components/header/header.component';
-import {auth} from './firebase/firebase.utils';
+import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 
 class App extends React.Component {
   constructor() {
@@ -18,14 +18,22 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    console.log(auth);
-    this.unsubscribeFromAuth =  auth.onAuthStateChanged((user) => {
-      if(user) {
-        console.log(user);
-        // user exists || user has signed in
-        this.setState({currentUser: user});
+    this.unsubscribeFromAuth =  auth.onAuthStateChanged(async userAuth => {
+      if(userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        // subscribe listen to change in user data/document , but we will also get back first state of that data/document.
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          }, () => {
+            console.log(this.state);
+          });
+        });
       } else {
-        this.setState({currentUser: null});
+        this.setState({currentUser: userAuth}); // userAuth comes null if user is not logged in.
       }
     });
   }
@@ -36,7 +44,7 @@ class App extends React.Component {
 
   render() {
     const contextType = theme;
-    console.info(contextType);
+    // console.info(contextType);
     return (
       <Box m="0 20px">
         {/* <Box mb={4} bg={bg} color={color}>
@@ -48,7 +56,8 @@ class App extends React.Component {
           <RouteSwich>
             <Route path='/' exact component={MenuList} />
             <Route path='/shops' exact component={ShopPage} />
-            <Route path="/login" exact component={LoginPage} />
+            {/* <Route path="/login" exact component={LoginPage} /> */}
+            <Route path="/login" exact render={(...props) => <LoginPage currentUser={this.state.currentUser} {...props} />} />
           </RouteSwich>
         </BrowserRouter>
       </Box>

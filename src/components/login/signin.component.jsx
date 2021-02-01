@@ -10,19 +10,25 @@ import {
     Text,
     Button
 } from "@chakra-ui/react";
-import {signInwithGoogle} from '../../firebase/firebase.utils';
+import {auth, signInwithGoogle} from '../../firebase/firebase.utils';
 
-
-class SignUp extends Component {
+class SignIn extends Component {
     state = {
         email: '',
         password: ''
     }
 
-    onFormSubmit = (event) => {
+    onFormSubmit = async event => {
         // default behavior - prevent it
         event.preventDefault();
-        console.log(this.state);
+        const {email, password} = this.state;
+        try {
+            const isSignedIn = await auth.signInWithEmailAndPassword(email, password);
+            console.log(isSignedIn);
+            this.setState({email: '', password: ''});
+        } catch(err) {
+            console.log('Error while signing in:', err.message);
+        }
     }
     
     handleChange = (event) => {
@@ -65,4 +71,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default SignIn;

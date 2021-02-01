@@ -1,13 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Image, Flex, Text, Skeleton, Spacer} from '@chakra-ui/react';
 
 const ShopListItem = ({id, name, imageUrl, price}) => {
     
     const [imgLoaded, setimgLoaded] = useState(false);
-
+    let timeout  = null;
     const checkSkeltonChange = () => {
-        setTimeout(() => setimgLoaded(true), 1000);
+        timeout = setTimeout(() => setimgLoaded(true), 1000);
     }
+    // will run everytime with [] option.
+    useEffect(() => {
+        // clean up function
+        return () => {
+            clearTimeout(timeout);
+        }
+    }, []);
 
     return(
         <Box>
