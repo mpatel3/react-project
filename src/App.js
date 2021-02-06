@@ -1,20 +1,16 @@
 import React from 'react';
 import { Box, theme } from '@chakra-ui/react';
+import {BrowserRouter, Route, Switch as RouteSwich} from 'react-router-dom';
+import {auth, createUserProfileDocument} from './firebase/firebase.utils';
+import {setCurrentUser} from './redux/user/user.actions';
+import { connect } from 'react-redux';
 import MenuList from './components/menulist/menuList';
 import ShopPage from './pages/shopes.pages';
 import LoginPage from './pages/login.pages';
-import {BrowserRouter, Route, Switch as RouteSwich} from 'react-router-dom';
 import Header from './components/header/header.component';
-import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 
 class App extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      currentUser: null,
-    }
-  }
   unsubscribeFromAuth = null;
 
   componentDidMount() {
@@ -23,17 +19,23 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth);
         // subscribe listen to change in user data/document , but we will also get back first state of that data/document.
         userRef.onSnapshot(snapShot => {
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
-          }, () => {
-            console.log(this.state);
-          });
+          
+          this.props.setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
+          })
+          // this.setState({
+          //   currentUser: {
+          //     id: snapShot.id,
+          //     ...snapShot.data()
+          //   }
+          // }, () => {
+          //   console.log(this.state);
+          // });
         });
       } else {
-        this.setState({currentUser: userAuth}); // userAuth comes null if user is not logged in.
+        this.props.setCurrentUser(null);
+        // this.setState({currentUser: userAuth}); // userAuth comes null if user is not logged in.
       }
     });
   }
@@ -52,12 +54,12 @@ class App extends React.Component {
         </Box>
         */}
         <BrowserRouter>
-          <Header currentUser={this.state.currentUser}/>
+          <Header />
           <RouteSwich>
             <Route path='/' exact component={MenuList} />
             <Route path='/shops' exact component={ShopPage} />
             {/* <Route path="/login" exact component={LoginPage} /> */}
-            <Route path="/login" exact render={(...props) => <LoginPage currentUser={this.state.currentUser} {...props} />} />
+            <Route path="/login" exact render={(...props) => <LoginPage {...props} />} />
           </RouteSwich>
         </BrowserRouter>
       </Box>
@@ -65,4 +67,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCurrentUser: (user) => dispatch(setCurrentUser(user))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

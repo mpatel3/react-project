@@ -1,14 +1,14 @@
 import { SimpleGrid } from '@chakra-ui/react';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import SignIn from '../components/login/signin.component';
 import SignUp from '../components/login/signup.component';
 
 
-const LoginPage = (props) => {
-    console.log(props);
+const LoginPage = ({currentUser}) => {
 
-    if(props['currentUser']) {
+    if(currentUser) {
         // props[0].history.push('/'); 
         return <Redirect to="/" />
     }
@@ -22,4 +22,8 @@ const LoginPage = (props) => {
     )
 }
 
-export default LoginPage;
+const mapStateToProps = ({user:{currentUser}}) => {
+    return { currentUser }
+}
+
+export default  connect(mapStateToProps, null)(LoginPage);
