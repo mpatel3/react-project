@@ -15,6 +15,7 @@ import React from 'react';
 import {Link as ReachLink} from 'react-router-dom';
 import { FaShopify, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { AiTwotoneShop } from "react-icons/ai";
+import {connect} from "react-redux";
 import {auth} from '../../firebase/firebase.utils';
 
 export const Header = ({currentUser}) => {
@@ -70,4 +71,8 @@ export const Header = ({currentUser}) => {
     )
 }
 
-export default Header;
+const mapStateToProps = ({user: {currentUser}}) => {
+    return { currentUser }
+}
+
+export default connect(mapStateToProps, null)(Header);
