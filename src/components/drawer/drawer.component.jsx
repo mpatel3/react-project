@@ -14,8 +14,10 @@ import {
     Divider} from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import CartItemComponent from './../cartitem-component/cartitem-component';
+import {selectCartItems} from './../../redux/cart/cart.selector';
+import { withRouter } from 'react-router-dom';
 
-const DrawerComponent = ({isOpen, onClose, cartItems}) => {
+const DrawerComponent = ({isOpen, onClose, cartItems, history}) => {
     return ( 
         <Drawer isOpen={isOpen} onClose={onClose}>
             <DrawerOverlay />
@@ -29,7 +31,7 @@ const DrawerComponent = ({isOpen, onClose, cartItems}) => {
                 </Box>
             </DrawerBody>
             <DrawerFooter>
-                <Button colorScheme="blue"> Check Out</Button>
+                <Button colorScheme="blue" onClick={() => history.push('/checkout')}> Check Out</Button>
             </DrawerFooter>
             </DrawerContent>
         </Drawer>
@@ -39,8 +41,8 @@ const DrawerComponent = ({isOpen, onClose, cartItems}) => {
 const mapStateToProps = (state) => {
     console.log(state.cart.cartItems);
     return {
-        cartItems : state.cart.cartItems
+        cartItems : selectCartItems(state)
     }
 }
 
-export default connect(mapStateToProps, null)(DrawerComponent);
+export default withRouter(connect(mapStateToProps, null)(DrawerComponent));
