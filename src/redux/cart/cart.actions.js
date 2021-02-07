@@ -6,3 +6,17 @@ export const AddItemToCart = item => {
         payload: item
     }
 }
+
+export const increaseItemCount = item => {
+    return {
+        type: cartItemConst.increaseItemCount,
+        payload: item
+    }
+}
+
+export const decreaseItemCount = item => {
+    return {
+        type: cartItemConst.decreaseItemCount,
+        payload: item
+    }
+}

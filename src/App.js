@@ -8,6 +8,7 @@ import MenuList from './components/menulist/menuList';
 import ShopPage from './pages/shopes.pages';
 import LoginPage from './pages/login.pages';
 import Header from './components/header/header.component';
+import Checkout from './pages/checkout.pages';
 
 class App extends React.Component {
 
@@ -60,6 +61,7 @@ class App extends React.Component {
             <Route path='/shops' exact component={ShopPage} />
             {/* <Route path="/login" exact component={LoginPage} /> */}
             <Route path="/login" exact render={(...props) => <LoginPage {...props} />} />
+            <Route path="/checkout" exact component={Checkout} />
           </RouteSwich>
         </BrowserRouter>
       </Box>
