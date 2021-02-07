@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Image, Flex, Text, Skeleton, Spacer} from '@chakra-ui/react';
+import {Box, Image, Flex, Text, Skeleton, Tag, TagLabel, HStack, Icon, Button} from '@chakra-ui/react';
+import { FaPlusCircle } from 'react-icons/fa';
+import { AddItemToCart } from './../../redux/cart/cart.actions';
+import { connect } from 'react-redux';
 
-const ShopListItem = ({id, name, imageUrl, price}) => {
-    
+const ShopListItem = ({item, addItemToCart}) => {
+    const { name, imageUrl, price } = item;
     const [imgLoaded, setimgLoaded] = useState(false);
     let timeout  = null;
     const checkSkeltonChange = () => {
@@ -34,7 +37,8 @@ const ShopListItem = ({id, name, imageUrl, price}) => {
                     }} />
                 </Box>
             </Skeleton>
-            <Flex align="baseline" mt={2}>
+            {/* <Flex align="baseline" mt={2} alignItems="center"> */}
+                <HStack mt={3}>
                 <Box>
                     <Text
                         ml={2}
@@ -45,14 +49,28 @@ const ShopListItem = ({id, name, imageUrl, price}) => {
                     {name}
                     </Text>
                 </Box>
-                <Box>
-                    <Text ml={1} fontSize="sm">
-                        <b> {price} </b>
-                    </Text>
-                </Box>
-            </Flex>
+                <Tag
+                    size = "lg"
+                    borderRadius="full"
+                    variant="solid"
+                    colorScheme="green"
+                >
+                <TagLabel>$ {price}</TagLabel>
+                </Tag>
+                <Button type="button" p={3} colorScheme="blue" onClick={() => addItemToCart(item)}>
+                    Add To Cart
+                </Button>
+            </HStack>
+            {/* </Flex> */}
         </Box>
     );
 }
 
-export default ShopListItem;
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addItemToCart: item => dispatch(AddItemToCart(item))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(ShopListItem);

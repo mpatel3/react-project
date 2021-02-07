@@ -9,6 +9,7 @@ import {
     Stack,
     Switch,
     useColorMode,
+    useDisclosure,
     Divider,
     Tooltip } from '@chakra-ui/react';
 import React from 'react';
@@ -17,9 +18,12 @@ import { FaShopify, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { AiTwotoneShop } from "react-icons/ai";
 import {connect} from "react-redux";
 import {auth} from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/car-icon.component';
+import DrawerComponent from '../drawer/drawer.component';
 
 export const Header = ({currentUser}) => {
     const {colorMode, toggleColorMode} = useColorMode();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     // const bg = useColorModeValue("red.500", "red.200");
     // const color = useColorModeValue("white", "gray.800");
 
@@ -62,11 +66,14 @@ export const Header = ({currentUser}) => {
                             </Link>
                         )
                     }
-                    
+                </Box>
+                <Box>
+                    <CartIcon onOpen={onOpen} />
                 </Box>
             </Stack>
         </Flex>
         <Divider />
+        <DrawerComponent isOpen={isOpen} onClose={onClose} />
         </Box>
     )
 }

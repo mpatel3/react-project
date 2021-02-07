@@ -8,10 +8,10 @@ const ShopList = ({title, items}) => {
         return (
             items
             .filter((item, index) => index < 4)
-            .map(({id, ...restShopItem}) => {
-                console.log({...restShopItem});
+            .map(item => {
+                // console.log({...restShopItem});
                 return (
-                    <ShopListItem key={id} {...restShopItem} test="manthan" />
+                    <ShopListItem key={item.id} item={item} />
                 );
             })
         );
