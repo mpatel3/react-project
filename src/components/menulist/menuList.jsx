@@ -1,31 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MenuItem from './menuitem';
-import {SimpleGrid} from '@chakra-ui/react';
-import SECTIONS_DATA from '../../data/sections.data';
+import { SimpleGrid } from '@chakra-ui/react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectMenuSections } from '../../redux/menu/menu.selector';
 
-class MenuList extends Component{
-    constructor (props) {
-        super(props);
-        this.state = { sections: SECTIONS_DATA }
-        console.log(this.props);
-    }
-
-    renderMenuItem = () => {
+const MenuList = ({sections}) => {
+    
+    const renderMenuItem = () => {
         return (
-            this.state.sections.map(section => {
+            sections.map(section => {
                 return <MenuItem key={section.id} section={section} />
             })
         )
     }
 
-    
-    render() {
-        return (
-            <SimpleGrid columns={{sm: 2, md: 3, lg:4}} spacing="10px">
-                {this.renderMenuItem()}
-            </SimpleGrid>
-        );
-    }   
+    return (
+        <SimpleGrid columns={{sm: 2, md: 3, lg:4}} spacing="10px">
+            {renderMenuItem()}
+        </SimpleGrid>
+    );
 }
 
-export default MenuList;
+const mapStateToProps = createStructuredSelector({
+    sections: selectMenuSections
+})
+
+export default connect(mapStateToProps, null)(MenuList);
