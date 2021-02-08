@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import { PersistGate } from 'redux-persist/integration/react';
+
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import theme from './themes/theme';
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import { store, persistor} from './redux/store';
 
 
 ReactDOM.render(
@@ -14,7 +16,9 @@ ReactDOM.render(
     <ChakraProvider>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <Provider store={store} >
-        <App />
+        <PersistGate persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </ChakraProvider>
   </React.StrictMode>,
