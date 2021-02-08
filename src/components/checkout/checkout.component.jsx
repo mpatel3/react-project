@@ -28,7 +28,7 @@ class CheckoutComponent extends Component {
     render() {
 
         if(!this.props.cartItems.length) {
-            return <Redirect to="/shops" />
+            return <Redirect to="/shop" />
         }
 
         return (

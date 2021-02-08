@@ -1,30 +1,16 @@
-import React, { Component } from 'react';
-import SHOP_DATA from '../data/shop.data';
-import ShopList from '../components/shop-list/shoplist';
-import { Center, SimpleGrid } from '@chakra-ui/react';
+import React from 'react';
+import { SimpleGrid } from '@chakra-ui/react';
+import { Route } from 'react-router-dom';
+import ShopListOverview from '../components/shop-list/shoplistoverview';
+import ShopCategory from '../components/shop-list/shopcategory';
 
-
-class ShopPage extends Component {
-    
-    state = {collections: SHOP_DATA};
-
-    getShopItems = () => {
-        return (
-            this.state.collections.map (({id, ...restofShopItems}) => {
-                return(
-                    <ShopList key={id} {...restofShopItems} />
-                );
-            })
-        );
-    }
-    
-    render() {
-        return (
-            <SimpleGrid column={1}>
-                {this.getShopItems()}
-            </SimpleGrid>
-        )
-    }
+const ShopPage = ({match}) => {
+    return (
+        <SimpleGrid column={1}>
+            <Route path={`${match.path}/:category`} exact component={ShopCategory} />
+            <Route path={`${match.path}`} exact component={ShopListOverview} />
+        </SimpleGrid>
+    )
 }
 
 export default ShopPage;

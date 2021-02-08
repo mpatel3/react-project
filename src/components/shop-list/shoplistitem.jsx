@@ -30,11 +30,18 @@ const ShopListItem = ({item, addItemToCart}) => {
                 speed="1.2" 
                 fadeDuration="0.8">
                 <Box overflow="hidden">
-                    <Image borderRadius="md" onLoad={checkSkeltonChange} src={imageUrl} objectFit="cover" _hover={{
-                        cursor: "pointer",
-                        transform: "scale(1.2)",
-                        transition: "transform 2s cubic-bezier(0.25, 0.25, 0.45, 0.95)"
-                    }} />
+                    <Image borderRadius="md"
+                        onLoad={checkSkeltonChange}
+                        src={imageUrl}
+                        height="350px"
+                        width="400px"
+                        objectFit="cover" 
+                        _hover={{
+                            cursor: "pointer",
+                            transform: "scale(1.2)",
+                            transition: "transform 2s cubic-bezier(0.25, 0.25, 0.45, 0.95)"
+                        }} 
+                    />
                 </Box>
             </Skeleton>
             {/* <Flex align="baseline" mt={2} alignItems="center"> */}

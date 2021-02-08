@@ -46,7 +46,7 @@ export const Header = ({currentUser}) => {
             <Spacer/>
             <Stack direction={["column", "row"]} spacing="24px">
                 <Box lineHeight="2.2rem">
-                    <Link as={ReachLink} to="/shops" _hover={{ textDecoration: "none"}}>
+                    <Link as={ReachLink} to="/shop" _hover={{ textDecoration: "none"}}>
                         <Tooltip label="Shop" fontSize="md" mt={1} shouldWrapChildren placement="bottom" >
                             <Icon as={FaShopify} boxSize={8} />
                         </Tooltip>
