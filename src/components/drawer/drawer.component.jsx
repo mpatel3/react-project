@@ -31,7 +31,10 @@ const DrawerComponent = ({isOpen, onClose, cartItems, history}) => {
                 </Box>
             </DrawerBody>
             <DrawerFooter>
-                <Button colorScheme="blue" onClick={() => history.push('/checkout')}> Check Out</Button>
+                <Button colorScheme="blue" onClick={() => {
+                    history.push('/checkout');
+                    onClose();
+                }}> Check Out</Button>
             </DrawerFooter>
             </DrawerContent>
         </Drawer>

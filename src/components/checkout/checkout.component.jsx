@@ -10,13 +10,15 @@ import {
     Image,
     Text,
     Icon,
+    Tfoot,
 } from "@chakra-ui/react";
 import { createStructuredSelector } from 'reselect';
-import { selectCartItems } from '../../redux/cart/cart.selector';
+import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selector';
 import { connect } from 'react-redux';
 import { MdDelete } from 'react-icons/md';
+import { Redirect } from 'react-router-dom';
 import {FaPlusCircle, FaMinusCircle} from 'react-icons/fa';
-import { increaseItemCount, decreaseItemCount } from '../../redux/cart/cart.actions';
+import { increaseItemCount, decreaseItemCount, clearItemFromCart } from '../../redux/cart/cart.actions';
 
 class CheckoutComponent extends Component {
     constructor() {
@@ -24,6 +26,11 @@ class CheckoutComponent extends Component {
     }
 
     render() {
+
+        if(!this.props.cartItems.length) {
+            return <Redirect to="/shops" />
+        }
+
         return (
             <Table variant="simple">
             <TableCaption>Products will be delivered based on covid-19 Situation.</TableCaption>
@@ -57,26 +64,36 @@ class CheckoutComponent extends Component {
                                 </Td>
                                 <Td>${price}</Td>
                                 <Td>
-                                    <Icon as={MdDelete} boxSize={8} />
+                                    <Icon as={MdDelete} boxSize={8} cursor="pointer" onClick={() => this.props.clearItemFromCart(item)} />
                                 </Td>
                             </Tr>
                         )
                     })
                 }
             </Tbody>
+            <Tfoot>
+            <Tr>
+                <Th></Th>
+                <Th></Th>
+                <Th></Th>
+                <Th fontSize={16}>Total: ${this.props.cartTotal}</Th>
+            </Tr>
+            </Tfoot>
             </Table>
         )
     }
 }
 
 const mapStateToProps = createStructuredSelector({
-    cartItems: selectCartItems
+    cartItems: selectCartItems,
+    cartTotal: selectCartTotal,
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         increaseItemCount: item => dispatch(increaseItemCount(item)),
-        decreaseItemCount: item => dispatch(decreaseItemCount(item))
+        decreaseItemCount: item => dispatch(decreaseItemCount(item)),
+        clearItemFromCart: item => dispatch(clearItemFromCart(item))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutComponent);

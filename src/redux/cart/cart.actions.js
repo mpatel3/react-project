@@ -20,3 +20,10 @@ export const decreaseItemCount = item => {
         payload: item
     }
 }
+
+export const clearItemFromCart = item => {
+    return {
+        type: cartItemConst.clearItemFromCart,
+        payload: item
+    }
+}
