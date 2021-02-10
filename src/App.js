@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Lazy, Suspense } from 'react';
 import { Box, theme } from '@chakra-ui/react';
 import {BrowserRouter, Route, Switch as RouteSwich} from 'react-router-dom';
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import {setCurrentUser} from './redux/user/user.actions';
 import { connect } from 'react-redux';
 import MenuList from './components/menulist/menuList';
-import ShopPage from './pages/shopes.pages';
-import LoginPage from './pages/login.pages';
+// import ShopPage from './pages/shopes.pages';
+// import LoginPage from './pages/login.pages';
 import Header from './components/header/header.component';
-import Checkout from './pages/checkout.pages';
+// import Checkout from './pages/checkout.pages';
 
+const ShopPage = React.lazy(() => import('./pages/shopes.pages'));
+const LoginPage = React.lazy(() => import('./pages/login.pages'));
+const Checkout = React.lazy(() => import('./pages/checkout.pages'));
 class App extends React.Component {
 
   unsubscribeFromAuth = null;
@@ -57,11 +60,12 @@ class App extends React.Component {
         <BrowserRouter>
           <Header />
           <RouteSwich>
-            <Route path='/' exact component={MenuList} />
-            <Route path='/shop' component={ShopPage} />
-            {/* <Route path="/login" exact component={LoginPage} /> */}
-            <Route path="/login" exact render={(...props) => <LoginPage {...props} />} />
-            <Route path="/checkout" exact component={Checkout} />
+            <Suspense fallback={<div>Loading.....</div>} >
+              <Route path='/' exact component={MenuList} />
+              <Route path='/shop' component={ShopPage} />
+              <Route path="/login" exact render={(...props) => <LoginPage {...props} />} />
+              <Route path="/checkout" exact component={Checkout} />
+            </Suspense>
           </RouteSwich>
         </BrowserRouter>
       </Box>
