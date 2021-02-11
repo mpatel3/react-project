@@ -7,9 +7,6 @@ import {
     DrawerCloseButton,
     DrawerHeader,
     Button,
-    Flex, 
-    Text,
-    Image,
     Box,
     Divider} from '@chakra-ui/react';
 import { connect } from 'react-redux';

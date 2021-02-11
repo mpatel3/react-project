@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Image, Flex, Text, Skeleton, Tag, TagLabel, HStack, Icon, Button} from '@chakra-ui/react';
-import { FaPlusCircle } from 'react-icons/fa';
+import {Box, Image, Flex, Text, Skeleton, Tag, TagLabel, HStack, Button} from '@chakra-ui/react';
 import { AddItemToCart } from './../../redux/cart/cart.actions';
 import { connect } from 'react-redux';
 
