@@ -20,7 +20,7 @@ const ShopList = ({title, items}) => {
     return (
         <Box>
             <Heading as="h4" size="lg" m={2}>{title}</Heading>
-            <SimpleGrid columns={{sm: 2, md: 3, lg:4}} spacing={5}>
+            <SimpleGrid columns={{sm: 2, md: 3, lg:4}} spacing={5} mb={5}>
                 {renderShopItem()}
             </SimpleGrid>
         </Box>
