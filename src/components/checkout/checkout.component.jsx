@@ -23,9 +23,6 @@ import { increaseItemCount, decreaseItemCount, clearItemFromCart } from '../../r
 import StripCheckoutButton from './stripe.component';
 
 class CheckoutComponent extends Component {
-    constructor() {
-        super()
-    }
 
     render() {
 

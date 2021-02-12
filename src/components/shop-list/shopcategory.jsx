@@ -1,6 +1,6 @@
 import { selectShopCollectionItem } from '../../redux/shop/shop.selector';
 import { connect } from 'react-redux';
-import { Box, Center, Divider, Heading, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Center, Divider, Heading, SimpleGrid } from '@chakra-ui/react';
 import ShopListItem from './shoplistitem';
 
 const ShopCategory = ({collections}) => {

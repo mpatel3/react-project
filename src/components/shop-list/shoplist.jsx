@@ -1,4 +1,4 @@
-import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import React from "react";
 import ShopListItem from './shoplistitem';
 
