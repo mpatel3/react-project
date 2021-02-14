@@ -39,6 +39,40 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
     return userRef;
 }
+// one time , we want to get reference/create a reference to the new collection item in firestore
+/**
+ * @description - Async function to create a new collection and add new documents inside that collection.
+ * @param {String} collectionKey - name of the collection key
+ * @param {Array} DocumentsToAdd - Array of Objects.
+ * 
+ */
+export const addCollectionAndDocuments = async (collectionKey, DocumentsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    const batch = firestore.batch();
+    console.log(DocumentsToAdd);
+    DocumentsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj);
+    });
+
+    await batch.commit();
+}
+
+export const collectionSnapShottoMap = (collections) => {
+    const transformedCollection = collections.docs.map(collection => {
+        const {title, items} = collection.data();
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: collection.id,
+            title,
+            items
+        }
+    });
+    return transformedCollection.reduce((collectionAccumulator, collectionItem) => {
+        collectionAccumulator[collectionItem.title.toLowerCase()] = {...collectionItem};
+        return collectionAccumulator;
+    }, {});
+}
 
 firebase.initializeApp(firebaseConfig);
 
