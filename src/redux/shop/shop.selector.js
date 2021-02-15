@@ -22,7 +22,12 @@ export const selectShopCollectionItem = collectionID => {
     // with data normlization - converting array into an object.
     return createSelector(
         [selectShopCollection],
-        collections => collections[collectionID]
+        collections => collections.hasOwnProperty(collectionID) ? collections[collectionID] : null
     )
     
 }
+
+export const selectIsShopCollectionFetching = createSelector(
+    [selectShop],
+    shop => shop.isFetching
+)
