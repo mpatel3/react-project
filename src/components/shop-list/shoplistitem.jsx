@@ -8,7 +8,7 @@ const ShopListItem = ({item, addItemToCart}) => {
     const [imgLoaded, setimgLoaded] = useState(false);
     let timeout  = null;
     const checkSkeltonChange = () => {
-        timeout = setTimeout(() => setimgLoaded(true), 1000);
+        timeout = setTimeout(() => setimgLoaded(true), 0);
     }
     // will run everytime with [] option.
     useEffect(() => {

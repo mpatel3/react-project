@@ -10,7 +10,8 @@ const MenuItem = ({section : { title, imageUrl, linkUrl} }) => {
     const [imgLoaded, setimgLoaded] = useState(false);
 
     const checkSkeltonChange = () => {
-        setTimeout(() => setimgLoaded(true), 1000);
+        // setTimeout(() => setimgLoaded(true), 0);
+        setimgLoaded(true);
     }
 
     return(
