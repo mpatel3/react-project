@@ -4,6 +4,10 @@ import { Box, Center, Divider, Heading, SimpleGrid } from '@chakra-ui/react';
 import ShopListItem from './shoplistitem';
 
 const ShopCategory = ({collections}) => {
+    // case of first load.
+    // first time collections is not available as we are fetching using thunk from firebase.
+    if (typeof collections !== 'object') return null;
+    
     const {title, items} = collections;
     return ( 
         <Box>
