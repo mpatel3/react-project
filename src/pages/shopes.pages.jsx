@@ -5,7 +5,7 @@ import ShopListOverview from '../components/shop-list/shoplistoverview';
 import ShopCategory from '../components/shop-list/shopcategory';
 // import { firestore, collectionSnapShottoMap } from '../firebase/firebase.utils';
 import { connect } from 'react-redux';
-import { fetchShopCollectionStartAsync } from '../redux/shop/shop.action';
+import { fetchShopCollectionStart } from '../redux/shop/shop.action';
 import { WithSpinner } from './../components/spinner/with-spinner.component';
 import { createStructuredSelector } from 'reselect';
 import { selectIsShopCollectionFetching } from './../redux/shop/shop.selector';
@@ -16,7 +16,7 @@ const ShopCategoryWithSpinner = WithSpinner(ShopCategory)
 
 // as ShopCategory and ShopListOverview both needs shop collection this is the best 
 // component to get data from the firebase firestore. 
-const ShopPage = ({match, fetchShopCollectionStartAsync, isShopCollectionFetching}) => {
+const ShopPage = ({match, fetchShopCollectionStart, isShopCollectionFetching}) => {
     
     // let unsubscribeFromSnapshot = null;
     // const [isLoading, setDataLoading] = useState(true);
@@ -33,7 +33,7 @@ const ShopPage = ({match, fetchShopCollectionStartAsync, isShopCollectionFetchin
         //     updateShopCollections(shopCollectionMap);
         //     setDataLoading(false);
         // });
-        fetchShopCollectionStartAsync();
+        fetchShopCollectionStart();
 
         // clean up function. unObserver from snapshot object when component unmount
         return () => {   
@@ -58,9 +58,17 @@ const mapStateToProps = createStructuredSelector({
     isShopCollectionFetching : selectIsShopCollectionFetching
 })
 
+// with redux-thunk
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         fetchShopCollectionStartAsync: () => dispatch(fetchShopCollectionStartAsync())
+//     }
+// }
+
+// with redux-saga
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchShopCollectionStartAsync: () => dispatch(fetchShopCollectionStartAsync())
+        fetchShopCollectionStart: () => dispatch(fetchShopCollectionStart())
     }
 }
 
