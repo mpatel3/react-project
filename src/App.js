@@ -1,27 +1,34 @@
-import React, { Lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { Box, theme } from '@chakra-ui/react';
 import {BrowserRouter, Route, Switch as RouteSwich} from 'react-router-dom';
-import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils';
-import {setCurrentUser} from './redux/user/user.actions';
-import { connect } from 'react-redux';
+// import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils';
+// import {setCurrentUser} from './redux/user/user.actions';
+import { checkUserSession } from './redux/user/user.actions';
+// import { connect } from 'react-redux';
 import MenuList from './components/menulist/menuList';
 // import ShopPage from './pages/shopes.pages';
 // import LoginPage from './pages/login.pages';
 import Header from './components/header/header.component';
 // import Checkout from './pages/checkout.pages';
-import { selectShopCollection } from './redux/shop/shop.selector';
+// import { selectShopCollection } from './redux/shop/shop.selector';
 
 const ShopPage = React.lazy(() => import('./pages/shopes.pages'));
 const LoginPage = React.lazy(() => import('./pages/login.pages'));
 const Checkout = React.lazy(() => import('./pages/checkout.pages'));
 class App extends React.Component {
 
-  unsubscribeFromAuth = null;
+  // unsubscribeFromAuth = null;
 
   componentDidMount() {
     // const { setCurrentUser, collectionArray } = this.props;
-    const { setCurrentUser } = this.props;
-    this.unsubscribeFromAuth =  auth.onAuthStateChanged(async userAuth => {
+    // const { setCurrentUser } = this.props;
+    const { checkUserSession } = this.props;
+    checkUserSession();
+    
+    // Moving This to Sagas.
+    /**
+     * auth.onAuthStateChanged - observer based pattern.
+     * this.unsubscribeFromAuth =  auth.onAuthStateChanged(async userAuth => {
       if(userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         // subscribe listen to change in user data/document , but we will also get back first state of that data/document.
@@ -37,11 +44,12 @@ class App extends React.Component {
       }
 
       // addCollectionAndDocuments('shop', Object.values(collectionArray).map(({id, title, items})=> ({id, title, items})));
-    });
+      });
+     */
   }
 
   componentWillUnmount() {
-    this.unsubscribeFromAuth();
+    // this.unsubscribeFromAuth();
   }
 
   render() {
@@ -78,10 +86,21 @@ class App extends React.Component {
 }
 */
 
+/** Move this to sagas.
+ * const mapDispatchToProps = (dispatch) => {
+    return {
+      setCurrentUser: (user) => dispatch(setCurrentUser(user))
+    }
+  }
+ */
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCurrentUser: (user) => dispatch(setCurrentUser(user))
+    checkUserSession: () => dispatch(checkUserSession())
   }
 }
 
+
 export default connect(null, mapDispatchToProps)(App);
+
+// export default App;
