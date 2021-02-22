@@ -1,5 +1,5 @@
 // import certain effect function.
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { ShopActionTypes } from './shop.types';
 import { firestore, collectionSnapShottoMap } from '../../firebase/firebase.utils';
 import { fetchShopCollectionSuccess, fetchShopCollectionFailure } from './shop.action';
@@ -19,7 +19,7 @@ export function* fetchShopCollectionsAsync() {
   Allows concurrent fetches of shop collections.
 */
 export function* fetchShopCollectionStart() {
-    yield takeEvery(
+    yield takeLatest(
         ShopActionTypes.FETCH_SHOPCOLLECTION_START,
         fetchShopCollectionsAsync
     )
